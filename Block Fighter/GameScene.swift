@@ -2,7 +2,7 @@
 //  GameScene.swift
 //  Block Fighter
 //
-//  Created by Dhanush Tipparaju on 3/16/23.
+//  Created by Dhanush Tipparaju, Chris Markiewicz on 3/16/23.
 //
 
 import SpriteKit
