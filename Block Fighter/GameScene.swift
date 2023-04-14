@@ -9,6 +9,8 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
+    var rFighter = SKSpriteNode()
+    var lFighter = SKSpriteNode()
     var duck1 = SKSpriteNode()
     var duck2 = SKSpriteNode()
     var jump1 = SKSpriteNode()
@@ -19,6 +21,7 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         //this stuff happens once (when the app open)
         createBackground()
+        createFighters()
     }
     
     func createBackground() {
@@ -34,6 +37,20 @@ class GameScene: SKScene {
             let moveForever = SKAction.repeatForever(moveLoop)
             spaceBackground.run(moveForever)
         }
+    }
+    
+    func createFighters() {
+        rFighter.removeFromParent()
+        rFighter = SKSpriteNode(imageNamed: "RFighter.png")
+        
+        lFighter.removeFromParent()
+        lFighter = SKSpriteNode(imageNamed: "LFighter.png")
+        
+        rFighter.position = CGPoint(x: frame.midX - 196, y: frame.midY - 64)
+        lFighter.position = CGPoint(x: frame.midX + 196, y: frame.midY - 64)
+        
+        addChild(rFighter)
+        addChild(lFighter)
     }
     
     func createDuck1() {
