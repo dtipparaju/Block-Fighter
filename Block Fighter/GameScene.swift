@@ -22,24 +22,98 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         //this stuff happens once (when the app open)
-        openGame()
+        makeStartMenu()
         createBackground()
-        createFighters()
     }
     
-    func openGame() {
-        makeStartMenu()
-        if playingGame == true {
-            startGame()
-        }
-        else if lookingAtInstructions == true {
-            
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            let location = touch.location(in: self)
+            for button in nodes (at: location) {
+                if button.name == "startLabel" {
+                    playingGame = true
+                    startGame()
+                }
+                if button.name == "instructionLabel" {
+                    lookingAtInstructions = true
+                    viewInstructions()
+                }
+            }
         }
     }
+    
     
     func startGame() {
-        createBackground()
+        if playingGame == true {
+            removeAllChildren()
+            createBackground()
+            createFighters()
+        }
     }
+    
+    func viewInstructions() {
+        if lookingAtInstructions == true {
+            removeAllChildren()
+            let instructionsDisplay = SKSpriteNode()
+            instructionsDisplay.zPosition = 1
+            instructionsDisplay.name = "instructionsDisplay"
+            instructionsDisplay.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+            self.addChild(instructionsDisplay)
+            
+            let instructionsRectangle = SKShapeNode(rectOf: CGSize(width: 500, height: 150), cornerRadius: 10)
+            instructionsRectangle.zPosition = 0
+            instructionsRectangle.position = CGPoint(x: frame.midX, y: frame.midY)
+            instructionsRectangle.strokeColor = .white
+            instructionsRectangle.fillColor = .red
+            instructionsDisplay.addChild(instructionsRectangle)
+            
+            let instructionJump = SKLabelNode(text: "Press the JUMP button to jump. ")
+            instructionJump.color = UIColor.white
+            instructionJump.position = CGPoint(x:frame.midX, y:frame.midY+50)
+            instructionJump.fontSize =  20
+            instructionJump.fontName = "Copperplate"
+            instructionJump.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
+            instructionJump.zPosition =  2
+            instructionsDisplay.addChild(instructionJump)
+            
+            let instructionPunch = SKLabelNode(text: "Press the PUNCH Button to punch")
+            instructionPunch.color = UIColor.white
+            instructionPunch.position = CGPoint(x:frame.midX, y:frame.midY+25)
+            instructionPunch.fontSize =  20
+            instructionPunch.fontName = "Copperplate"
+            instructionPunch.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
+            instructionPunch.zPosition =  2
+            instructionsDisplay.addChild(instructionPunch)
+            
+            let instructionDuck = SKLabelNode(text: "Press the DUCK button to duck")
+            instructionDuck.color = UIColor.white
+            instructionDuck.position = CGPoint(x:frame.midX, y:frame.midY)
+            instructionDuck.fontSize =  20
+            instructionDuck.fontName = "Copperplate"
+            instructionDuck.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
+            instructionDuck.zPosition =  2
+            instructionsDisplay.addChild(instructionDuck)
+            
+            let instructionHit = SKLabelNode(text: "Hit the other player to deal damage")
+            instructionHit.color = UIColor.white
+            instructionHit.position = CGPoint(x:frame.midX, y:frame.midY-25)
+            instructionHit.fontSize =  20
+            instructionHit.fontName = "Copperplate"
+            instructionHit.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
+            instructionHit.zPosition =  2
+            instructionsDisplay.addChild(instructionHit)
+            
+            let instructionWin = SKLabelNode(text: "First to lose their health losses")
+            instructionWin.color = UIColor.white
+            instructionWin.position = CGPoint(x:frame.midX, y:frame.midY-50)
+            instructionWin.fontSize =  20
+            instructionWin.fontName = "Copperplate"
+            instructionWin.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
+            instructionWin.zPosition =  2
+            instructionsDisplay.addChild(instructionWin)
+        }
+    }
+    
     
     func makeStartMenu() {
         let startButton = SKSpriteNode()
@@ -62,7 +136,7 @@ class GameScene: SKScene {
         startText.fontSize =  45
         startText.fontName = "Copperplate"
         startText.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
-        startText.name = "startText"
+        startText.name = "startLabel"
         startText.zPosition =  2
         startButton.addChild(startText)
         
@@ -74,7 +148,7 @@ class GameScene: SKScene {
         
         let instructionsRectangle = SKShapeNode(rectOf: CGSize(width: 300, height: 50), cornerRadius: 10)
         instructionsRectangle.zPosition = 0
-        instructionsRectangle.name = "startRectangle"
+        instructionsRectangle.name = "instructionRectangle"
         instructionsRectangle.position = CGPoint(x: frame.midX, y: frame.midY-50)
         instructionsRectangle.strokeColor = .white
         instructionsRectangle.fillColor = .red
@@ -86,11 +160,10 @@ class GameScene: SKScene {
         instructionText.fontSize =  45
         instructionText.fontName = "Copperplate"
         instructionText.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
-        instructionText.name = "startText"
+        instructionText.name = "instructionLabel"
         instructionText.zPosition =  2
         instructionButton.addChild(instructionText)
     }
-    
     
     func createBackground() {
         let space = SKTexture(imageNamed: "space2")
