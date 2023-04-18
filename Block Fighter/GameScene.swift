@@ -182,10 +182,10 @@ class GameScene: SKScene {
     
     func createFighters() {
         rFighter.removeFromParent()
-        rFighter = SKSpriteNode(imageNamed: "RFighter.png")
+        rFighter = SKSpriteNode(imageNamed: "RFighter_0.png")
         
         lFighter.removeFromParent()
-        lFighter = SKSpriteNode(imageNamed: "LFighter.png")
+        lFighter = SKSpriteNode(imageNamed: "LFighter_0.png")
         
         rFighter.position = CGPoint(x: frame.midX - 196, y: frame.midY - 64)
         lFighter.position = CGPoint(x: frame.midX + 196, y: frame.midY - 64)
