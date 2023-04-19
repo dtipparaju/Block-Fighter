@@ -23,7 +23,6 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         //this stuff happens once (when the app open)
         makeStartMenu()
-        createBackground()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -37,6 +36,10 @@ class GameScene: SKScene {
                 if button.name == "instructionLabel" {
                     lookingAtInstructions = true
                     viewInstructions()
+                }
+                if button.name == "backButton" {
+                    removeAllChildren()
+                    makeStartMenu()
                 }
             }
         }
@@ -111,6 +114,15 @@ class GameScene: SKScene {
             instructionWin.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
             instructionWin.zPosition =  2
             instructionsDisplay.addChild(instructionWin)
+            
+            let backArrow = SKTexture(imageNamed: "backArrow")
+            let backButton = SKSpriteNode(texture: backArrow)
+            backButton.name = "backButton"
+            backButton.position = CGPoint(x: self.frame.midX-350, y: self.frame.midY+150)
+            backButton.zPosition = 3
+            backButton.xScale = CGFloat(0.05)
+            backButton.yScale = CGFloat(0.05)
+            self.addChild(backButton)
         }
     }
     
@@ -163,6 +175,8 @@ class GameScene: SKScene {
         instructionText.name = "instructionLabel"
         instructionText.zPosition =  2
         instructionButton.addChild(instructionText)
+        
+        createBackground()
     }
     
     func createBackground() {
