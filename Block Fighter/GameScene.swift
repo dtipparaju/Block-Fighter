@@ -41,6 +41,10 @@ class GameScene: SKScene {
                     removeAllChildren()
                     makeStartMenu()
                 }
+                if button.name == "jumpButton" {
+                    removeAllChildren()
+                    makeStartMenu()
+                }
             }
         }
     }
@@ -126,6 +130,16 @@ class GameScene: SKScene {
         }
     }
     
+    func createJumpButton() {
+        let jump = SKTexture(imageNamed: "jumpButton1")
+        let jumpButton = SKSpriteNode(texture: jump)
+        jumpButton.name = "jumpButton"
+        jumpButton.position = CGPoint(x: self.frame.midX-450, y: self.frame.midY+150)
+        jumpButton.zPosition = 6
+        jumpButton.xScale = CGFloat(0.05)
+        jumpButton.yScale = CGFloat(0.05)
+        self.addChild(jumpButton)
+    }
     
     func makeStartMenu() {
         let startButton = SKSpriteNode()
