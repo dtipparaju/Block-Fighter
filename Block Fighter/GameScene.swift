@@ -19,6 +19,7 @@ class GameScene: SKScene {
     var punch2 = SKSpriteNode()
     var rFighterHealth = 100
     var lFighterHealth = 100
+    let winnerText = SKLabelNode(text: "")
     
     override func didMove(to view: SKView) {
         //this stuff happens once (when the app open)
@@ -48,9 +49,70 @@ class GameScene: SKScene {
                 if button.name == "homeText" {
                     removeAllChildren()
                     makeStartMenu()
+                    rFighterHealth = 100
+                    lFighterHealth =  100
                 }
             }
         }
+    }
+    
+    func checkWinner () { //make sure to run this whenever the sprites punch each other, also try and get the health bar to update whenever the the sprites contact each other
+        if rFighterHealth == 0 {
+            gameOver(rWinner: false, lWinner: true)
+        }
+        if lFighterHealth == 0 {
+            gameOver(rWinner: true, lWinner: false)
+        }
+    }
+    
+    func gameOver(rWinner:Bool, lWinner:Bool) {
+        if rWinner == true {
+            winnerText.text = "Right Player Wins"
+            winnerText.fontSize = 50
+            winnerText.fontName = "Copperplate"
+            winnerText.position = CGPoint(x: frame.midY, y: frame.midY + 100)
+            winnerText.zPosition = 4
+            self.addChild(winnerText)
+            
+        }
+        if lWinner  == true {
+            winnerText.text = "Left Player Wins"
+            winnerText.fontSize = 50
+            winnerText.fontName = "Copperplate"
+            winnerText.position = CGPoint(x: frame.midY, y: frame.midY + 100)
+            winnerText.zPosition = 4
+            self.addChild(winnerText)
+        }
+        
+        let homeButton = SKSpriteNode()
+        homeButton.zPosition = 6
+        homeButton.name = "homeButton"
+        homeButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 50)
+      self.addChild(homeButton)
+        
+        let homeRectangle = SKShapeNode(rectOf: CGSize(width: 300, height: 50), cornerRadius: 10)
+        homeRectangle.zPosition = 5
+        homeRectangle.name = "homeRectangle"
+        homeRectangle.position = CGPoint(x: frame.midX, y: frame.midY-50)
+        homeRectangle.strokeColor = .white
+        homeRectangle.fillColor = .red
+        homeButton.addChild(homeRectangle)
+        
+        let homeText = SKLabelNode(text: "Return Home")
+        homeText.color = UIColor.white
+        homeText.position = CGPoint(x:frame.midX, y:frame.midY-50)
+        homeText.fontSize =  45
+        homeText.fontName = "Copperplate"
+        homeText.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
+        homeText.name = "homeText"
+        homeText.zPosition =  7
+        homeButton.addChild(homeText)
+    
+        let blackOut = SKShapeNode(rectOf: CGSize(width: 1000, height: 1000))
+        blackOut.fillColor = UIColor.black
+        blackOut.strokeColor = UIColor.black
+        blackOut.zPosition = -3
+        homeButton.addChild(blackOut)
     }
     
     func startGame() {
