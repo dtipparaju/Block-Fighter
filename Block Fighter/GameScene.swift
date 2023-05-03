@@ -17,8 +17,6 @@ class GameScene: SKScene {
     var jump2 = SKSpriteNode()
     var punch1 = SKSpriteNode()
     var punch2 = SKSpriteNode()
-    var playingGame = false
-    var lookingAtInstructions = false
     
     override func didMove(to view: SKView) {
         //this stuff happens once (when the app open)
@@ -30,14 +28,22 @@ class GameScene: SKScene {
             let location = touch.location(in: self)
             for button in nodes (at: location) {
                 if button.name == "startLabel" {
-                    playingGame = true
                     startGame()
                 }
                 if button.name == "instructionLabel" {
-                    lookingAtInstructions = true
                     viewInstructions()
                 }
                 if button.name == "backButton" {
+                    removeAllChildren()
+                    makeStartMenu()
+                }
+                if button.name == "pauseButton" {
+                    pauseMenu()
+                }
+                if button.name == "continueButton" {
+                    startGame()
+                }
+                if button.name == "homeText" {
                     removeAllChildren()
                     makeStartMenu()
                 }
@@ -45,17 +51,14 @@ class GameScene: SKScene {
         }
     }
     
-    
     func startGame() {
-        if playingGame == true {
             removeAllChildren()
             createBackground()
             createFighters()
-        }
+            createPauseButton()
     }
     
     func viewInstructions() {
-        if lookingAtInstructions == true {
             removeAllChildren()
             let instructionsDisplay = SKSpriteNode()
             instructionsDisplay.zPosition = 1
@@ -123,9 +126,79 @@ class GameScene: SKScene {
             backButton.xScale = CGFloat(0.05)
             backButton.yScale = CGFloat(0.05)
             self.addChild(backButton)
-        }
     }
     
+    func pauseMenu() {
+        let pauseScreen =  SKShapeNode(rectOf: CGSize(width: 1000, height: 1000))
+        pauseScreen.zPosition = 4
+        pauseScreen.position = CGPoint(x: frame.midX, y: frame.midY)
+        pauseScreen.fillColor = .black
+        pauseScreen.strokeColor = .black
+        pauseScreen.name = "pauseScreen"
+     self.addChild(pauseScreen)
+        
+        let continueButton = SKSpriteNode()
+        continueButton.zPosition = 6
+        continueButton.name = "continueButton"
+        continueButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY+50)
+  self.addChild(continueButton)
+        
+        
+        let continueRectangle = SKShapeNode(rectOf: CGSize(width: 275, height: 50), cornerRadius: 10)
+        continueRectangle.zPosition = 5
+        continueRectangle.name = "continueRectangle"
+        continueRectangle.position = CGPoint(x: frame.midX, y: frame.midY+50)
+        continueRectangle.strokeColor = .white
+        continueRectangle.fillColor = .red
+        continueButton.addChild(continueRectangle)
+        
+        let continueText = SKLabelNode(text: "Continue")
+        continueText.color = UIColor.white
+        continueText.position = CGPoint(x:frame.midX, y:frame.midY+50)
+        continueText.fontSize =  45
+        continueText.fontName = "Copperplate"
+        continueText.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
+        continueText.name = "continueText"
+        continueText.zPosition =  7
+        continueButton.addChild(continueText)
+        
+        let homeButton = SKSpriteNode()
+        homeButton.zPosition = 6
+        homeButton.name = "homeButton"
+        homeButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY-50)
+      self.addChild(homeButton)
+  
+        
+        let homeRectangle = SKShapeNode(rectOf: CGSize(width: 300, height: 50), cornerRadius: 10)
+        homeRectangle.zPosition = 5
+        homeRectangle.name = "homeRectangle"
+        homeRectangle.position = CGPoint(x: frame.midX, y: frame.midY-50)
+        homeRectangle.strokeColor = .white
+        homeRectangle.fillColor = .red
+        homeButton.addChild(homeRectangle)
+        
+        let homeText = SKLabelNode(text: "Return Home")
+        homeText.color = UIColor.white
+        homeText.position = CGPoint(x:frame.midX, y:frame.midY-50)
+        homeText.fontSize =  45
+        homeText.fontName = "Copperplate"
+        homeText.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
+        homeText.name = "homeText"
+        homeText.zPosition =  7
+        homeButton.addChild(homeText)
+        
+    }
+    
+    func createPauseButton() {
+        let pause = SKTexture(imageNamed: "pauseButton1")
+        let pauseButton = SKSpriteNode(texture: pause)
+        pauseButton.name = "pauseButton"
+        pauseButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY+150)
+        pauseButton.zPosition = 3
+        pauseButton.xScale = CGFloat(0.05)
+        pauseButton.yScale = CGFloat(0.05)
+        self.addChild(pauseButton)
+    }
     
     func makeStartMenu() {
         let startButton = SKSpriteNode()
@@ -232,4 +305,3 @@ class GameScene: SKScene {
         
     }
 }
-
