@@ -17,6 +17,8 @@ class GameScene: SKScene {
     var jump2 = SKSpriteNode()
     var punch1 = SKSpriteNode()
     var punch2 = SKSpriteNode()
+    var rFighterHealth = 100
+    var lFighterHealth = 100
     
     override func didMove(to view: SKView) {
         //this stuff happens once (when the app open)
@@ -56,6 +58,7 @@ class GameScene: SKScene {
             createBackground()
             createFighters()
             createPauseButton()
+        createHealthBars()
     }
     
     func viewInstructions() {
@@ -126,6 +129,22 @@ class GameScene: SKScene {
             backButton.xScale = CGFloat(0.05)
             backButton.yScale = CGFloat(0.05)
             self.addChild(backButton)
+    }
+    
+    func createHealthBars() {
+        let rHealthBar = SKShapeNode(rectOf: CGSize(width: 2 * rFighterHealth, height: 15), cornerRadius: 2)
+        rHealthBar.zPosition = 4
+        rHealthBar.position = CGPoint(x: frame.midX + 200, y:frame.midY + 150)
+        rHealthBar.fillColor = .green
+        rHealthBar.strokeColor = .green
+        self.addChild(rHealthBar)
+        
+        let lHealthBar =  SKShapeNode(rectOf: CGSize(width: 2 * lFighterHealth, height: 15), cornerRadius: 2)
+        lHealthBar.zPosition = 4
+        lHealthBar.position = CGPoint(x: frame.midX - 200, y:frame.midY + 150)
+        lHealthBar.fillColor = .green
+        lHealthBar.strokeColor = .green
+        self.addChild(lHealthBar)
     }
     
     func pauseMenu() {
