@@ -11,29 +11,19 @@ import GameplayKit
 class GameScene: SKScene {
     var rFighter = SKSpriteNode()
     var lFighter = SKSpriteNode()
-    var duck1 = SKSpriteNode()
-    var duck2 = SKSpriteNode()
-    var jump1 = SKSpriteNode()
-    var jump2 = SKSpriteNode()
-    var punch1 = SKSpriteNode()
-    var punch2 = SKSpriteNode()
+    var punchR = SKSpriteNode()
+    var punchL = SKSpriteNode()
     var rFighterHealth = 100
     var lFighterHealth = 100
     let winnerText = SKLabelNode(text: "")
     var rHealthBar = SKShapeNode()
     var lHealthBar = SKShapeNode()
+    var rBlocking =  false
+    var lBlocking = false
     
     override func didMove(to view: SKView) {
         //this stuff happens once (when the app open)
         makeStartMenu()
-    }
-
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            let location = touch.location(in: self)
-                rFighter.position.x = location.x
-            rPunch(SKPhysicsContact())
-        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -62,43 +52,23 @@ class GameScene: SKScene {
                     rFighterHealth = 100
                     lFighterHealth =  100
                 }
-                if button.name == "rJump" {
-                    //code so when you jump right player goes up
+                while button.name == "rBlock" {
+            rBlocking = true
                 }
-                if button.name == "lJump" {
-                    //code so when when jump left player goes up
-                }
-                if button.name == "rDuck" {
-                    //code so when you duck right player ducks
-                }
-                if button.name == "lDuck" {
-                   //code so when you punch left player ducks
+                while button.name == "lBlock" {
+                   lBlocking = true
                 }
                 if button.name == "rPunch" {
-                    //code so when you punch right player punches and deals damage
-                    rPunch(SKPhysicsContact())
+                    if lBlocking == false {
+                        lFighterHealth -= 10
+                    }
                 }
                 if button.name == "lPunch" {
-                    //code so when you punch left player punches and deals damage
-                lPunch(SKPhysicsContact())
+                    if rBlocking == false {
+                            rFighterHealth -= 10
+                    }
                 }
             }
-        }
-    }
-    
-    func rPunch(_ contact: SKPhysicsContact) {
-        if contact.bodyA.node?.name == "rFighter" ||
-            contact.bodyB.node?.name == "rFighter" {
-            lFighterHealth -= 10
-            updateHealthBars()
-        }
-    }
-    
-    func lPunch(_ contact: SKPhysicsContact) {
-        if contact.bodyA.node?.name == "lFighter" ||
-            contact.bodyB.node?.name == "lFighter" {
-            lFighterHealth -= 10
-            updateHealthBars()
         }
     }
     
@@ -401,18 +371,15 @@ class GameScene: SKScene {
     
     func createButtons()
     {
-        createDuck1()
-        createDuck2()
-        createJump1()
-        createJump2()
-        createPunch1()
-        createPunch2()
+        createBlockR()
+        createBlockL()
+        createPunchR()
+        createPunchL()
     }
     
     func createFighters() {
         rFighter.removeFromParent()
         rFighter = SKSpriteNode(imageNamed: "RFighter_0.png")
-        rFighter.physicsBody = SKPhysicsBody(texture: rFighter.texture!, size: rFighter.texture!.size())
         rFighter.position = CGPoint(x: frame.midX - 100, y: frame.midY - 64)
         var rFighterTextures: [SKTexture] = []
         for i in 1...2 {
@@ -422,7 +389,6 @@ class GameScene: SKScene {
         let rFighterAnimationAction = SKAction.animate(with: rFighterTextures, timePerFrame: 0.2)
         lFighter.removeFromParent()
         lFighter = SKSpriteNode(imageNamed: "LFighter_0.png")
-        lFighter.physicsBody = SKPhysicsBody(texture: lFighter.texture!, size: lFighter.texture!.size())
         lFighter.position = CGPoint(x: frame.midX + 100, y: frame.midY - 64)
         var lFighterTextures: [SKTexture] = []
         for i in 1...2 {
@@ -437,57 +403,31 @@ class GameScene: SKScene {
         lFighter.run(SKAction.repeatForever(lFighterAnimationAction))
     }
     
-    func createDuck1() {
-        duck1.removeFromParent()
-        duck1 = SKSpriteNode(imageNamed: "DuckButton_0")
-        duck1.xScale = 0.5
-        duck1.yScale = 0.5
-        duck1.position = CGPoint(x: frame.midX - 240, y: frame.midY - 96)
-        addChild(duck1)
+    func createPunchR() {
+        punchR.removeFromParent()
+        punchR = SKSpriteNode(imageNamed: "punch_0")
+        punchR.xScale = 0.5
+        punchR.yScale = 0.5
+        punchR.position = CGPoint(x: frame.midX - 320, y: frame.midY - 48)
+        punchR.name = "rPunch"
+        addChild(punchR)
     }
     
-    func createDuck2() {
-        duck2.removeFromParent()
-        duck2 = SKSpriteNode(imageNamed: "DuckButton_0")
-        duck2.xScale = 0.5
-        duck2.yScale = 0.5
-        duck2.position = CGPoint(x: frame.midX + 240, y: frame.midY - 96)
-        addChild(duck2)
+    func createPunchL() {
+        punchL.removeFromParent()
+        punchL = SKSpriteNode(imageNamed: "punch_0")
+        punchL.xScale = 0.5
+        punchL.yScale = 0.5
+        punchL.position = CGPoint(x: frame.midX + 320, y: frame.midY - 48)
+        punchL.name =  "lPunch"
+        addChild(punchL)
     }
     
-    func createPunch1() {
-        punch1.removeFromParent()
-        punch1 = SKSpriteNode(imageNamed: "punch_0")
-        punch1.xScale = 0.5
-        punch1.yScale = 0.5
-        punch1.position = CGPoint(x: frame.midX - 320, y: frame.midY - 48)
-        addChild(punch1)
+    func createBlockR() {
+
     }
     
-    func createPunch2() {
-        punch2.removeFromParent()
-        punch2 = SKSpriteNode(imageNamed: "punch_0")
-        punch2.xScale = 0.5
-        punch2.yScale = 0.5
-        punch2.position = CGPoint(x: frame.midX + 320, y: frame.midY - 48)
-        addChild(punch2)
-    }
-    
-    func createJump1() {
-        jump1.removeFromParent()
-        jump1 = SKSpriteNode(imageNamed: "JumpButton_0")
-        jump1.xScale = 0.5
-        jump1.yScale = 0.5
-        jump1.position = CGPoint(x: frame.midX - 240, y: frame.midY)
-        addChild(jump1)
-    }
-    
-    func createJump2() {
-        jump2.removeFromParent()
-        jump2 = SKSpriteNode(imageNamed: "JumpButton_0")
-        jump2.xScale = 0.5
-        jump2.yScale = 0.5
-        jump2.position = CGPoint(x: frame.midX + 240, y: frame.midY)
-        addChild(jump2)
+    func createBlockL() {
+        
     }
 }
