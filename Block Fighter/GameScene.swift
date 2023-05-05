@@ -13,6 +13,8 @@ class GameScene: SKScene {
     var lFighter = SKSpriteNode()
     var punchR = SKSpriteNode()
     var punchL = SKSpriteNode()
+    var blockR = SKSpriteNode()
+    var blockL = SKSpriteNode()
     var rFighterHealth = 100
     var lFighterHealth = 100
     let winnerText = SKLabelNode(text: "")
@@ -403,7 +405,7 @@ class GameScene: SKScene {
         punchR = SKSpriteNode(imageNamed: "punch_0")
         punchR.xScale = 0.5
         punchR.yScale = 0.5
-        punchR.position = CGPoint(x: frame.midX - 320, y: frame.midY - 48)
+        punchR.position = CGPoint(x: frame.midX - 240, y: frame.midY - 80)
         punchR.name = "rPunch"
         addChild(punchR)
     }
@@ -413,16 +415,28 @@ class GameScene: SKScene {
         punchL = SKSpriteNode(imageNamed: "punch_0")
         punchL.xScale = 0.5
         punchL.yScale = 0.5
-        punchL.position = CGPoint(x: frame.midX + 320, y: frame.midY - 48)
+        punchL.position = CGPoint(x: frame.midX + 240, y: frame.midY - 80)
         punchL.name =  "lPunch"
         addChild(punchL)
     }
     
     func createBlockR() {
-
+        blockR.removeFromParent()
+        blockR = SKSpriteNode(imageNamed: "BlockButton_0")
+        blockR.xScale = 0.5
+        blockR.yScale = 0.5
+        blockR.position = CGPoint(x: frame.midX + 320, y: frame.midY - 32)
+        blockR.name =  "blockR"
+        addChild(blockR)
     }
     
     func createBlockL() {
-        
+        blockL.removeFromParent()
+        blockL = SKSpriteNode(imageNamed: "BlockButton_0")
+        blockL.xScale = 0.5
+        blockL.yScale = 0.5
+        blockL.position = CGPoint(x: frame.midX + 320, y: frame.midY - 32)
+        blockL.name =  "blockL"
+        addChild(blockL)
     }
 }
