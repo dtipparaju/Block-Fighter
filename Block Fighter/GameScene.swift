@@ -62,11 +62,13 @@ class GameScene: SKScene {
                     if lBlocking == false {
                         lFighterHealth -= 10
                     }
+                    checkWinner()
                 }
                 if button.name == "lPunch" {
                     if rBlocking == false {
                             rFighterHealth -= 10
                     }
+                    checkWinner()
                 }
             }
         }
@@ -134,8 +136,8 @@ class GameScene: SKScene {
     func startGame() {
             removeAllChildren()
             createBackground()
-            createFighters()
             createPauseButton()
+        createFighters()
         updateHealthBars()
             createButtons()
     }
@@ -155,9 +157,9 @@ class GameScene: SKScene {
             instructionsRectangle.fillColor = .red
             instructionsDisplay.addChild(instructionsRectangle)
             
-            let instructionJump = SKLabelNode(text: "Press the JUMP button to jump. ")
+            let instructionJump = SKLabelNode(text: "Press the BLOCK button to block. ")
             instructionJump.color = UIColor.white
-            instructionJump.position = CGPoint(x:frame.midX, y:frame.midY+50)
+            instructionJump.position = CGPoint(x:frame.midX, y:frame.midY + 50)
             instructionJump.fontSize =  20
             instructionJump.fontName = "Copperplate"
             instructionJump.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
@@ -166,21 +168,12 @@ class GameScene: SKScene {
             
             let instructionPunch = SKLabelNode(text: "Press the PUNCH Button to punch")
             instructionPunch.color = UIColor.white
-            instructionPunch.position = CGPoint(x:frame.midX, y:frame.midY+25)
+            instructionPunch.position = CGPoint(x:frame.midX, y:frame.midY + 25)
             instructionPunch.fontSize =  20
             instructionPunch.fontName = "Copperplate"
             instructionPunch.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
             instructionPunch.zPosition =  2
             instructionsDisplay.addChild(instructionPunch)
-            
-            let instructionDuck = SKLabelNode(text: "Press the DUCK button to duck")
-            instructionDuck.color = UIColor.white
-            instructionDuck.position = CGPoint(x:frame.midX, y:frame.midY)
-            instructionDuck.fontSize =  20
-            instructionDuck.fontName = "Copperplate"
-            instructionDuck.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
-            instructionDuck.zPosition =  2
-            instructionsDisplay.addChild(instructionDuck)
             
             let instructionHit = SKLabelNode(text: "Hit the other player to deal damage")
             instructionHit.color = UIColor.white
@@ -351,7 +344,6 @@ class GameScene: SKScene {
         instructionButton.addChild(instructionText)
         
         createBackground()
-        createFighters()
     }
     
     func createBackground() {
@@ -399,8 +391,11 @@ class GameScene: SKScene {
             
         rFighter.run(SKAction.repeatForever(rFighterAnimationAction))
         
-        addChild(lFighter)
+
         lFighter.run(SKAction.repeatForever(lFighterAnimationAction))
+        
+        addChild(lFighter)
+        addChild(rFighter)
     }
     
     func createPunchR() {
