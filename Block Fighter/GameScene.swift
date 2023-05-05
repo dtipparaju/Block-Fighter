@@ -120,7 +120,8 @@ class GameScene: SKScene {
             createBackground()
             createFighters()
             createPauseButton()
-        createHealthBars()
+            createHealthBars()
+            createButtons()
     }
     
     func viewInstructions() {
@@ -332,7 +333,6 @@ class GameScene: SKScene {
         
         createBackground()
         createFighters()
-        createButtons()
     }
     
     func createBackground() {
@@ -386,7 +386,6 @@ class GameScene: SKScene {
         
         addChild(lFighter)
         lFighter.run(SKAction.repeatForever(lFighterAnimationAction))
-
     }
     
     func createDuck1() {
@@ -394,7 +393,7 @@ class GameScene: SKScene {
         duck1 = SKSpriteNode(imageNamed: "DuckButton_0")
         duck1.xScale = 0.5
         duck1.yScale = 0.5
-        duck1.position = CGPoint(x: frame.midX - 262, y: frame.midY + 64)
+        duck1.position = CGPoint(x: frame.midX - 240, y: frame.midY - 96)
         addChild(duck1)
     }
     
@@ -403,7 +402,7 @@ class GameScene: SKScene {
         duck2 = SKSpriteNode(imageNamed: "DuckButton_0")
         duck2.xScale = 0.5
         duck2.yScale = 0.5
-        duck2.position = CGPoint(x: frame.midX + 262, y: frame.midY + 64)
+        duck2.position = CGPoint(x: frame.midX + 240, y: frame.midY - 96)
         addChild(duck2)
     }
     
@@ -412,7 +411,7 @@ class GameScene: SKScene {
         punch1 = SKSpriteNode(imageNamed: "punch_0")
         punch1.xScale = 0.5
         punch1.yScale = 0.5
-        punch1.position = CGPoint(x: frame.midX - 262, y: frame.midY - 64)
+        punch1.position = CGPoint(x: frame.midX - 320, y: frame.midY - 48)
         addChild(punch1)
     }
     
@@ -421,7 +420,7 @@ class GameScene: SKScene {
         punch2 = SKSpriteNode(imageNamed: "punch_0")
         punch2.xScale = 0.5
         punch2.yScale = 0.5
-        punch2.position = CGPoint(x: frame.midX + 262, y: frame.midY - 64)
+        punch2.position = CGPoint(x: frame.midX + 320, y: frame.midY - 48)
         addChild(punch2)
     }
     
@@ -430,7 +429,7 @@ class GameScene: SKScene {
         jump1 = SKSpriteNode(imageNamed: "JumpButton_0")
         jump1.xScale = 0.5
         jump1.yScale = 0.5
-        jump1.position = CGPoint(x: frame.midX - 262, y: frame.midY )
+        jump1.position = CGPoint(x: frame.midX - 240, y: frame.midY)
         addChild(jump1)
     }
     
@@ -439,7 +438,7 @@ class GameScene: SKScene {
         jump2 = SKSpriteNode(imageNamed: "JumpButton_0")
         jump2.xScale = 0.5
         jump2.yScale = 0.5
-        jump2.position = CGPoint(x: frame.midX + 262, y: frame.midY)
+        jump2.position = CGPoint(x: frame.midX + 240, y: frame.midY)
         addChild(jump2)
     }
 }
