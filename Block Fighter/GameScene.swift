@@ -20,10 +20,20 @@ class GameScene: SKScene {
     var rFighterHealth = 100
     var lFighterHealth = 100
     let winnerText = SKLabelNode(text: "")
+    var rHealthBar = SKShapeNode()
+    var lHealthBar = SKShapeNode()
     
     override func didMove(to view: SKView) {
         //this stuff happens once (when the app open)
         makeStartMenu()
+    }
+
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            let location = touch.location(in: self)
+                rFighter.position.x = location.x
+            rPunch(SKPhysicsContact())
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -52,7 +62,43 @@ class GameScene: SKScene {
                     rFighterHealth = 100
                     lFighterHealth =  100
                 }
+                if button.name == "rJump" {
+                    //code so when you jump right player goes up
+                }
+                if button.name == "lJump" {
+                    //code so when when jump left player goes up
+                }
+                if button.name == "rDuck" {
+                    //code so when you duck right player ducks
+                }
+                if button.name == "lDuck" {
+                   //code so when you punch left player ducks
+                }
+                if button.name == "rPunch" {
+                    //code so when you punch right player punches and deals damage
+                    rPunch(SKPhysicsContact())
+                }
+                if button.name == "lPunch" {
+                    //code so when you punch left player punches and deals damage
+                lPunch(SKPhysicsContact())
+                }
             }
+        }
+    }
+    
+    func rPunch(_ contact: SKPhysicsContact) {
+        if contact.bodyA.node?.name == "rFighter" ||
+            contact.bodyB.node?.name == "rFighter" {
+            lFighterHealth -= 10
+            updateHealthBars()
+        }
+    }
+    
+    func lPunch(_ contact: SKPhysicsContact) {
+        if contact.bodyA.node?.name == "lFighter" ||
+            contact.bodyB.node?.name == "lFighter" {
+            lFighterHealth -= 10
+            updateHealthBars()
         }
     }
     
@@ -120,7 +166,7 @@ class GameScene: SKScene {
             createBackground()
             createFighters()
             createPauseButton()
-        createHealthBars()
+        updateHealthBars()
     }
     
     func viewInstructions() {
@@ -193,15 +239,18 @@ class GameScene: SKScene {
             self.addChild(backButton)
     }
     
-    func createHealthBars() {
-        let rHealthBar = SKShapeNode(rectOf: CGSize(width: 2 * rFighterHealth, height: 15), cornerRadius: 2)
+    func updateHealthBars() {
+        rHealthBar.removeFromParent()
+        lHealthBar.removeFromParent()
+        
+        rHealthBar = SKShapeNode(rectOf: CGSize(width: 2 * rFighterHealth, height: 15), cornerRadius: 2)
         rHealthBar.zPosition = 4
         rHealthBar.position = CGPoint(x: frame.midX + 200, y:frame.midY + 150)
         rHealthBar.fillColor = .green
         rHealthBar.strokeColor = .green
         self.addChild(rHealthBar)
         
-        let lHealthBar =  SKShapeNode(rectOf: CGSize(width: 2 * lFighterHealth, height: 15), cornerRadius: 2)
+        lHealthBar =  SKShapeNode(rectOf: CGSize(width: 2 * lFighterHealth, height: 15), cornerRadius: 2)
         lHealthBar.zPosition = 4
         lHealthBar.position = CGPoint(x: frame.midX - 200, y:frame.midY + 150)
         lHealthBar.fillColor = .green
@@ -351,9 +400,17 @@ class GameScene: SKScene {
     func createFighters() {
         rFighter.removeFromParent()
         rFighter = SKSpriteNode(imageNamed: "RFighter_0.png")
+        rFighter.physicsBody = SKPhysicsBody(texture: rFighter.texture!, size: rFighter.texture!.size())
+        rFighter.physicsBody?.affectedByGravity = false
+        rFighter.name = "rFighter"
+        rFighter.physicsBody?.allowsRotation = false
         
         lFighter.removeFromParent()
         lFighter = SKSpriteNode(imageNamed: "LFighter_0.png")
+        lFighter.physicsBody = SKPhysicsBody(texture: lFighter.texture!, size: lFighter.texture!.size())
+        lFighter.physicsBody?.affectedByGravity = false
+        lFighter.name = "lFighter"
+        lFighter.physicsBody?.allowsRotation = false
         
         rFighter.position = CGPoint(x: frame.midX - 196, y: frame.midY - 64)
         lFighter.position = CGPoint(x: frame.midX + 196, y: frame.midY - 64)
