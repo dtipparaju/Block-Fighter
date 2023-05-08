@@ -396,35 +396,48 @@ class GameScene: SKScene {
         createPunchL()
     }
     
+    // This function creates and animates two fighter characters (left and right).
     func createFighters() {
+        // Remove the right fighter from the parent node and create a new right fighter sprite.
         rFighter.removeFromParent()
         rFighter = SKSpriteNode(imageNamed: "RFighter_0.png")
         rFighter.position = CGPoint(x: frame.midX - 100, y: frame.midY - 64)
+
+        // Load textures for the right fighter's animation.
         var rFighterTextures: [SKTexture] = []
         for i in 1...2 {
             let texture = SKTexture(imageNamed: "RFighter_\(i-1)")
             rFighterTextures.append(texture)
         }
+        // Create the right fighter's animation action.
         let rFighterAnimationAction = SKAction.animate(with: rFighterTextures, timePerFrame: 0.2)
-        
+
+        // Remove the left fighter from the parent node and create a new left fighter sprite.
         lFighter.removeFromParent()
         lFighter = SKSpriteNode(imageNamed: "LFighter_0.png")
         lFighter.position = CGPoint(x: frame.midX + 100, y: frame.midY - 64)
+
+        // Load textures for the left fighter's animation.
         var lFighterTextures: [SKTexture] = []
         for i in 1...2 {
             let texture = SKTexture(imageNamed: "LFighter_\(i-1)")
             lFighterTextures.append(texture)
         }
+        // Create the left fighter's animation action.
         let lFighterAnimationAction = SKAction.animate(with: lFighterTextures, timePerFrame: 0.2)
-            
+
+        // Run the animations for both fighters in a loop.
         rFighter.run(SKAction.repeatForever(rFighterAnimationAction))
         lFighter.run(SKAction.repeatForever(lFighterAnimationAction))
-        
+
+        // Add the fighters to the scene.
         addChild(lFighter)
         addChild(rFighter)
     }
-    
+
+    // This function creates the right punch button and its animation.
     func createPunchR() {
+        // Remove the punchR button from the parent node and create a new punchR button sprite.
         punchR.removeFromParent()
         punchR = SKSpriteNode(imageNamed: "punch_0")
         punchR.xScale = 0.5
@@ -432,19 +445,23 @@ class GameScene: SKScene {
         punchR.position = CGPoint(x: frame.midX - 240, y: frame.midY - 32)
         punchR.name = "rPunch"
         addChild(punchR)
-        
+
+        // Load textures for the right punch button's animation.
         var rPunchTextures: [SKTexture] = []
         for i in 1...2 {
             let texture = SKTexture(imageNamed: "RFighterPunch_\(i-1)")
             rPunchTextures.append(texture)
         }
-        
+
+        // Create the right punch button's animation action and wait action.
         let rPunchAnimationAction = SKAction.animate(with: rPunchTextures, timePerFrame: 0.2)
         let rPunchWaitAction = SKAction.wait(forDuration: 1)
         rPunchAction = SKAction.sequence([rPunchAnimationAction, rPunchWaitAction])
     }
-    
+
+    // This function creates the left punch button and its animation.
     func createPunchL() {
+        // Remove the punchL button from the parent node and create a new punchL button sprite.
         punchL.removeFromParent()
         punchL = SKSpriteNode(imageNamed: "punch_0")
         punchL.xScale = 0.5
@@ -452,19 +469,23 @@ class GameScene: SKScene {
         punchL.position = CGPoint(x: frame.midX + 240, y: frame.midY - 32)
         punchL.name =  "lPunch"
         addChild(punchL)
-        
+
+        // Load textures for the left punch button's animation.
         var lPunchTextures: [SKTexture] = []
         for i in 1...2 {
             let texture = SKTexture(imageNamed: "LFighterPunch_\(i-1)")
             lPunchTextures.append(texture)
         }
-        
+
+        // Create the left punch button's animation action and wait action.
         let lPunchAnimationAction = SKAction.animate(with: lPunchTextures, timePerFrame: 0.2)
         let lPunchWaitAction = SKAction.wait(forDuration: 1)
         lPunchAction = SKAction.sequence([lPunchAnimationAction, lPunchWaitAction])
     }
-    
+
+    // This function creates the right block button and its animation.
     func createBlockR() {
+        // Remove the blockR button from the parent node and create a new blockR button sprite.
         blockR.removeFromParent()
         blockR = SKSpriteNode(imageNamed: "BlockButton_0")
         blockR.xScale = 0.5
@@ -472,31 +493,49 @@ class GameScene: SKScene {
         blockR.position = CGPoint(x: frame.midX - 320, y: frame.midY - 80)
         blockR.name =  "rBlock"
         addChild(blockR)
-        
+
+        // Load textures for the right block button's animation.
         var rBlockTextures: [SKTexture] = []
         for i in 1...2 {
             let texture = SKTexture(imageNamed: "RBubble_\(i-1)")
             rBlockTextures.append(texture)
         }
-        
+
+        // Create the right block button's animation action.
         rBlockAction = SKAction.animate(with: rBlockTextures, timePerFrame: 0.2)
     }
-    
+
+    // This function creates the left block button and its animation.
     func createBlockL() {
+        // Remove the blockL button from the parent node, if it exists.
         blockL.removeFromParent()
+
+        // Create a new blockL button sprite with the initial image.
         blockL = SKSpriteNode(imageNamed: "BlockButton_0")
+        
+        // Set the scale of the blockL button sprite.
         blockL.xScale = 0.5
         blockL.yScale = 0.5
+
+        // Set the position of the blockL button sprite.
         blockL.position = CGPoint(x: frame.midX + 320, y: frame.midY - 80)
+
+        // Assign a name to the blockL button sprite for easier identification.
         blockL.name =  "lBlock"
-        addChild(blockL)
         
+        // Add the blockL button sprite as a child of the current node.
+        addChild(blockL)
+
+        // Initialize an array to store the textures for the left block button's animation.
         var lBlockTextures: [SKTexture] = []
+
+        // Load the textures for the left block button's animation.
         for i in 1...2 {
             let texture = SKTexture(imageNamed: "LBubble_\(i-1)")
             lBlockTextures.append(texture)
         }
-        
+
+        // Create the left block button's animation action.
         lBlockAction = SKAction.animate(with: lBlockTextures, timePerFrame: 0.2)
     }
 }
