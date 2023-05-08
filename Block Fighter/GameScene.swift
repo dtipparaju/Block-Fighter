@@ -22,6 +22,10 @@ class GameScene: SKScene {
     var lHealthBar = SKShapeNode()
     var rBlocking =  false
     var lBlocking = false
+    var rPunchAction = SKAction()
+    var lPunchAction = SKAction()
+    var rBlockAction = SKAction()
+    var lBlockAction = SKAction()
     
     override func didMove(to view: SKView) {
         //this stuff happens once (when the app open)
@@ -54,25 +58,46 @@ class GameScene: SKScene {
                     rFighterHealth = 100
                     lFighterHealth =  100
                 }
-                while button.name == "rBlock" {
-            rBlocking = true
+                if button.name == "rBlock" {
+                    rBlocking = true
                 }
-                while button.name == "lBlock" {
-                   lBlocking = true
+                if button.name == "lBlock" {
+                    lBlocking = true
                 }
                 if button.name == "rPunch" {
+                    rFighter.run(rPunchAction)
                     if lBlocking == false {
                         lFighterHealth -= 10
                     }
                     checkWinner()
                 }
                 if button.name == "lPunch" {
+                    lFighter.run(lPunchAction)
                     if rBlocking == false {
-                            rFighterHealth -= 10
+                        rFighterHealth -= 10
                     }
                     checkWinner()
                 }
             }
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        rBlocking = false
+        lBlocking = false
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        rBlocking = false
+        lBlocking = false
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        if rBlocking {
+            rFighter.run(rBlockAction)
+        }
+        if lBlocking {
+            lFighter.run(lBlockAction)
         }
     }
     
@@ -136,12 +161,12 @@ class GameScene: SKScene {
     }
     
     func startGame() {
-            removeAllChildren()
-            createBackground()
-            createPauseButton()
+        removeAllChildren()
+        createBackground()
+        createPauseButton()
         createFighters()
         updateHealthBars()
-            createButtons()
+        createButtons()
     }
     
     func viewInstructions() {
@@ -381,6 +406,7 @@ class GameScene: SKScene {
             rFighterTextures.append(texture)
         }
         let rFighterAnimationAction = SKAction.animate(with: rFighterTextures, timePerFrame: 0.2)
+        
         lFighter.removeFromParent()
         lFighter = SKSpriteNode(imageNamed: "LFighter_0.png")
         lFighter.position = CGPoint(x: frame.midX + 100, y: frame.midY - 64)
@@ -392,8 +418,6 @@ class GameScene: SKScene {
         let lFighterAnimationAction = SKAction.animate(with: lFighterTextures, timePerFrame: 0.2)
             
         rFighter.run(SKAction.repeatForever(rFighterAnimationAction))
-        
-
         lFighter.run(SKAction.repeatForever(lFighterAnimationAction))
         
         addChild(lFighter)
@@ -405,9 +429,19 @@ class GameScene: SKScene {
         punchR = SKSpriteNode(imageNamed: "punch_0")
         punchR.xScale = 0.5
         punchR.yScale = 0.5
-        punchR.position = CGPoint(x: frame.midX - 240, y: frame.midY - 80)
+        punchR.position = CGPoint(x: frame.midX - 240, y: frame.midY - 32)
         punchR.name = "rPunch"
         addChild(punchR)
+        
+        var rPunchTextures: [SKTexture] = []
+        for i in 1...2 {
+            let texture = SKTexture(imageNamed: "RFighterPunch_\(i-1)")
+            rPunchTextures.append(texture)
+        }
+        
+        let rPunchAnimationAction = SKAction.animate(with: rPunchTextures, timePerFrame: 0.2)
+        let rPunchWaitAction = SKAction.wait(forDuration: 1)
+        rPunchAction = SKAction.sequence([rPunchAnimationAction, rPunchWaitAction])
     }
     
     func createPunchL() {
@@ -415,9 +449,19 @@ class GameScene: SKScene {
         punchL = SKSpriteNode(imageNamed: "punch_0")
         punchL.xScale = 0.5
         punchL.yScale = 0.5
-        punchL.position = CGPoint(x: frame.midX + 240, y: frame.midY - 80)
+        punchL.position = CGPoint(x: frame.midX + 240, y: frame.midY - 32)
         punchL.name =  "lPunch"
         addChild(punchL)
+        
+        var lPunchTextures: [SKTexture] = []
+        for i in 1...2 {
+            let texture = SKTexture(imageNamed: "LFighterPunch_\(i-1)")
+            lPunchTextures.append(texture)
+        }
+        
+        let lPunchAnimationAction = SKAction.animate(with: lPunchTextures, timePerFrame: 0.2)
+        let lPunchWaitAction = SKAction.wait(forDuration: 1)
+        lPunchAction = SKAction.sequence([lPunchAnimationAction, lPunchWaitAction])
     }
     
     func createBlockR() {
@@ -425,9 +469,17 @@ class GameScene: SKScene {
         blockR = SKSpriteNode(imageNamed: "BlockButton_0")
         blockR.xScale = 0.5
         blockR.yScale = 0.5
-        blockR.position = CGPoint(x: frame.midX + 320, y: frame.midY - 32)
-        blockR.name =  "blockR"
+        blockR.position = CGPoint(x: frame.midX - 320, y: frame.midY - 80)
+        blockR.name =  "rBlock"
         addChild(blockR)
+        
+        var rBlockTextures: [SKTexture] = []
+        for i in 1...2 {
+            let texture = SKTexture(imageNamed: "RBubble_\(i-1)")
+            rBlockTextures.append(texture)
+        }
+        
+        rBlockAction = SKAction.animate(with: rBlockTextures, timePerFrame: 0.2)
     }
     
     func createBlockL() {
@@ -435,8 +487,16 @@ class GameScene: SKScene {
         blockL = SKSpriteNode(imageNamed: "BlockButton_0")
         blockL.xScale = 0.5
         blockL.yScale = 0.5
-        blockL.position = CGPoint(x: frame.midX + 320, y: frame.midY - 32)
-        blockL.name =  "blockL"
+        blockL.position = CGPoint(x: frame.midX + 320, y: frame.midY - 80)
+        blockL.name =  "lBlock"
         addChild(blockL)
+        
+        var lBlockTextures: [SKTexture] = []
+        for i in 1...2 {
+            let texture = SKTexture(imageNamed: "LBubble_\(i-1)")
+            lBlockTextures.append(texture)
+        }
+        
+        lBlockAction = SKAction.animate(with: lBlockTextures, timePerFrame: 0.2)
     }
 }
