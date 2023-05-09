@@ -67,7 +67,7 @@ class GameScene: SKScene {
                 if button.name == "rPunch" {
                     rFighter.run(rPunchAction)
                     if rBlocking == false {
-                        rFighterHealth -= 10
+                        rFighterHealth -= 5
                     }
                     updateHealthBars()
                     checkWinner()
@@ -75,7 +75,7 @@ class GameScene: SKScene {
                 if button.name == "lPunch" {
                     lFighter.run(lPunchAction)
                     if lBlocking == false {
-                        lFighterHealth -= 10
+                        lFighterHealth -= 5
                     }
                     updateHealthBars()
                     checkWinner()
@@ -216,7 +216,7 @@ class GameScene: SKScene {
             instructionsRectangle.fillColor = .red
             instructionsDisplay.addChild(instructionsRectangle)
             
-            let instructionJump = SKLabelNode(text: "Press the BLOCK button to block. ")
+            let instructionJump = SKLabelNode(text: "Hold the BLOCK button to block. ")
             instructionJump.color = UIColor.white
             instructionJump.position = CGPoint(x:frame.midX, y:frame.midY + 50)
             instructionJump.fontSize =  20
@@ -474,7 +474,7 @@ class GameScene: SKScene {
         punchR = SKSpriteNode(imageNamed: "punch_0")
         punchR.xScale = 0.5
         punchR.yScale = 0.5
-        punchR.position = CGPoint(x: frame.midX - 240, y: frame.midY - 32)
+        punchR.position = CGPoint(x: frame.midX - 275, y: frame.midY + 32)
         punchR.name = "rPunch"
         addChild(punchR)
 
@@ -498,7 +498,7 @@ class GameScene: SKScene {
         punchL = SKSpriteNode(imageNamed: "punch_0")
         punchL.xScale = 0.5
         punchL.yScale = 0.5
-        punchL.position = CGPoint(x: frame.midX + 240, y: frame.midY - 32)
+        punchL.position = CGPoint(x: frame.midX + 275, y: frame.midY + 32)
         punchL.name =  "lPunch"
         addChild(punchL)
 
@@ -522,7 +522,7 @@ class GameScene: SKScene {
         blockR = SKSpriteNode(imageNamed: "BlockButton_0")
         blockR.xScale = 0.5
         blockR.yScale = 0.5
-        blockR.position = CGPoint(x: frame.midX - 320, y: frame.midY - 80)
+        blockR.position = CGPoint(x: frame.midX - 330, y: frame.midY - 125)
         blockR.name =  "rBlock"
         addChild(blockR)
 
@@ -550,7 +550,7 @@ class GameScene: SKScene {
         blockL.yScale = 0.5
 
         // Set the position of the blockL button sprite.
-        blockL.position = CGPoint(x: frame.midX + 320, y: frame.midY - 80)
+        blockL.position = CGPoint(x: frame.midX + 330, y: frame.midY - 125)
 
         // Assign a name to the blockL button sprite for easier identification.
         blockL.name =  "lBlock"
