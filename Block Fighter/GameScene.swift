@@ -66,17 +66,24 @@ class GameScene: SKScene {
                 }
                 if button.name == "rPunch" {
                     rFighter.run(rPunchAction)
-                    if lBlocking == false {
-                        lFighterHealth -= 10
+                    if rBlocking == false {
+                        rFighterHealth -= 10
                     }
+                    updateHealthBars()
                     checkWinner()
                 }
                 if button.name == "lPunch" {
                     lFighter.run(lPunchAction)
-                    if rBlocking == false {
-                        rFighterHealth -= 10
+                    if lBlocking == false {
+                        lFighterHealth -= 10
                     }
+                    updateHealthBars()
                     checkWinner()
+                }
+                if button.name == "playAgainButton" {
+                    rFighterHealth = 100
+                    lFighterHealth = 100
+                    startGame()
                 }
             }
         }
@@ -116,7 +123,7 @@ class GameScene: SKScene {
             winnerText.fontSize = 50
             winnerText.fontName = "Copperplate"
             winnerText.position = CGPoint(x: frame.midY, y: frame.midY + 100)
-            winnerText.zPosition = 4
+            winnerText.zPosition = 8
             self.addChild(winnerText)
             
         }
@@ -125,27 +132,27 @@ class GameScene: SKScene {
             winnerText.fontSize = 50
             winnerText.fontName = "Copperplate"
             winnerText.position = CGPoint(x: frame.midY, y: frame.midY + 100)
-            winnerText.zPosition = 4
+            winnerText.zPosition = 8
             self.addChild(winnerText)
         }
         
         let homeButton = SKSpriteNode()
         homeButton.zPosition = 6
         homeButton.name = "homeButton"
-        homeButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 50)
+        homeButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
       self.addChild(homeButton)
         
         let homeRectangle = SKShapeNode(rectOf: CGSize(width: 300, height: 50), cornerRadius: 10)
         homeRectangle.zPosition = 5
         homeRectangle.name = "homeRectangle"
-        homeRectangle.position = CGPoint(x: frame.midX, y: frame.midY-50)
+        homeRectangle.position = CGPoint(x: frame.midX, y: frame.midY)
         homeRectangle.strokeColor = .white
         homeRectangle.fillColor = .red
         homeButton.addChild(homeRectangle)
         
         let homeText = SKLabelNode(text: "Return Home")
         homeText.color = UIColor.white
-        homeText.position = CGPoint(x:frame.midX, y:frame.midY-50)
+        homeText.position = CGPoint(x:frame.midX, y:frame.midY)
         homeText.fontSize =  45
         homeText.fontName = "Copperplate"
         homeText.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
@@ -156,8 +163,33 @@ class GameScene: SKScene {
         let blackOut = SKShapeNode(rectOf: CGSize(width: 1000, height: 1000))
         blackOut.fillColor = UIColor.black
         blackOut.strokeColor = UIColor.black
-        blackOut.zPosition = -3
+        blackOut.zPosition = -1
         homeButton.addChild(blackOut)
+        
+        
+        let playAgainButton = SKSpriteNode()
+        playAgainButton.zPosition = 6
+        playAgainButton.name = "playAgainButton"
+        playAgainButton.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 50)
+      self.addChild(playAgainButton)
+        
+        let playAgainRectangle = SKShapeNode(rectOf: CGSize(width: 300, height: 50), cornerRadius: 10)
+        playAgainRectangle.zPosition = 5
+        playAgainRectangle.name = "playAgainRectangle"
+        playAgainRectangle.position = CGPoint(x: frame.midX, y: frame.midY-50)
+        playAgainRectangle.strokeColor = .white
+        playAgainRectangle.fillColor = .red
+        playAgainButton.addChild(playAgainRectangle)
+        
+        let playAgainText = SKLabelNode(text: "Play Again")
+        playAgainText.color = UIColor.white
+        playAgainText.position = CGPoint(x:frame.midX, y:frame.midY-50)
+        playAgainText.fontSize =  45
+        playAgainText.fontName = "Copperplate"
+        playAgainText.verticalAlignmentMode = SKLabelVerticalAlignmentMode(rawValue: 1)!
+        playAgainText.name = "playAgainText"
+        playAgainText.zPosition =  7
+        playAgainButton.addChild(playAgainText)
     }
     
     func startGame() {
