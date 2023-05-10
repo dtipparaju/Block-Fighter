@@ -65,20 +65,24 @@ class GameScene: SKScene {
                     lBlocking = true
                 }
                 if button.name == "rPunch" {
-                    rFighter.run(rPunchAction)
                     if rBlocking == false {
-                        rFighterHealth -= 5
+                        rFighter.run(rPunchAction)
+                        if lBlocking == false {
+                            rFighterHealth -= 5
+                        }
+                        updateHealthBars()
+                        checkWinner()
                     }
-                    updateHealthBars()
-                    checkWinner()
                 }
                 if button.name == "lPunch" {
-                    lFighter.run(lPunchAction)
                     if lBlocking == false {
-                        lFighterHealth -= 5
+                        lFighter.run(lPunchAction)
+                        if rBlocking == false {
+                            lFighterHealth -= 5
+                        }
+                        updateHealthBars()
+                        checkWinner()
                     }
-                    updateHealthBars()
-                    checkWinner()
                 }
                 if button.name == "playAgainButton" {
                     rFighterHealth = 100
@@ -93,7 +97,7 @@ class GameScene: SKScene {
         rBlocking = false
         lBlocking = false
     }
-    
+
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         rBlocking = false
         lBlocking = false
