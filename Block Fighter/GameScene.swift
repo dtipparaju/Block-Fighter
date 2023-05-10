@@ -65,6 +65,7 @@ class GameScene: SKScene {
                     lBlocking = true
                 }
                 if button.name == "rPunch" {
+                    rBlocking = false
                     if rBlocking == false {
                         rFighter.run(rPunchAction)
                         if lBlocking == false {
@@ -75,6 +76,7 @@ class GameScene: SKScene {
                     }
                 }
                 if button.name == "lPunch" {
+                    lBlocking = false
                     if lBlocking == false {
                         lFighter.run(lPunchAction)
                         if rBlocking == false {
@@ -93,15 +95,6 @@ class GameScene: SKScene {
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        rBlocking = false
-        lBlocking = false
-    }
-
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        rBlocking = false
-        lBlocking = false
-    }
     
     override func update(_ currentTime: TimeInterval) {
         if rBlocking {
